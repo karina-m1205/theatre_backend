@@ -6,6 +6,7 @@ router.get("/", async (req, res) => {
     try {
         const eventType = req.query;
         const events = await EventsServices.getEvents(eventType);
+
         return res.status(200).send(events);
     } catch (err) {
         return res.status(500).send(err.message);
@@ -18,8 +19,23 @@ router.post("/", async (req, res) => {
         if (!eventData) {
             return res.status(400).send("no event to save");
         };
+
         const savedEvent = await EventsServices.postEvents(eventData);
         return res.status(200).send(savedEvent);
+    } catch (err) {
+        return res.status(500).send(err.message);
+    };
+});
+
+router.delete("/:id", async (req, res) => {
+    try {
+        const eventId = req.params.id;
+        if (!eventId) {
+            return res.status(400).send("id is required");
+        };
+
+        const deletedEvent = await EventsServices.deleteEvent(eventId);
+        return res.status(200).send(deletedEvent);
     } catch (err) {
         return res.status(500).send(err.message);
     };

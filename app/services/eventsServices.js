@@ -25,6 +25,19 @@ class EventsServices {
             throw err;
         };
     };
+
+    static async deleteEvent(id) {
+        try {
+            const deletedEvent = await Events.findByIdAndDelete(id);
+            if (!deletedEvent) {
+                throw new Error("event not found");
+            };
+
+            return deletedEvent;
+        } catch (err) {
+            throw err;
+        };
+    };
 };
 
 module.exports = EventsServices;
